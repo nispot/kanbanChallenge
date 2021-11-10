@@ -11,6 +11,36 @@ export default class KanbanBoard extends Component {
     };
     this.stagesNames = ['Backlog', 'To Do', 'Ongoing', 'Done'];
   }
+
+  handleBack = (task) => {
+    const newStage = task.stage -1;
+    const updatedTasks = this.state.tasks.map(t => {
+      if (t.name === task.name) {
+        return {...t, stage: newStage};
+      } else {
+        return t;
+      }
+    });
+
+    this.setState({ 
+      tasks: updatedTasks
+     });
+  } 
+
+  handleForward = (task) => {
+    const newStage = task.stage + 1;
+    const updatedTasks = this.state.tasks.map(t => {
+      if (t.name === task.name) {
+        return {...t, stage: newStage};
+      } else {
+        return t;
+      }
+    });
+
+    this.setState({ 
+      tasks: updatedTasks
+     });
+  }
  
   render() {
     const { tasks } = this.state;
@@ -38,10 +68,10 @@ export default class KanbanBoard extends Component {
                                       <div className="li-content layout-row justify-content-between align-items-center">
                                         <span data-testid={`${task.name.split(' ').join('-')}-name`}>{task.name}</span>
                                         <div className="icons">
-                                          <button className="icon-only x-small mx-2" data-testid={`${task.name.split(' ').join('-')}-back`}>
+                                          <button onClick={ () => this.handleBack(task)} className="icon-only x-small mx-2" data-testid={`${task.name.split(' ').join('-')}-back`}>
                                             <i className="material-icons">arrow_back</i>
                                           </button>
-                                          <button className="icon-only x-small mx-2" data-testid={`${task.name.split(' ').join('-')}-forward`}>
+                                          <button onClick={ () => this.handleForward (task) } className="icon-only x-small mx-2" data-testid={`${task.name.split(' ').join('-')}-forward`}>
                                             <i className="material-icons">arrow_forward</i>
                                           </button>
                                         </div>
